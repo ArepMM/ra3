@@ -5,7 +5,7 @@
 //------------------------------------------------------------------------------
 void RA3HeadMotor::stepRegistrator(double t, double dt)
 {
-    if (!is_Registarator_on)
+    if (!is_Registrator_on)
         return;
 
     QString msg = QString("%1 %2 %3 %4")

@@ -7,7 +7,7 @@
 //------------------------------------------------------------------------------
 void RA3HeadMotor::initRegistrator()
 {
-    if (!is_Registarator_on)
+    if (!is_Registrator_on)
         return;
 
     reg = new Registrator();

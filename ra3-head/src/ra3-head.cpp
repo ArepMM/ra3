@@ -6,6 +6,14 @@
 //
 //------------------------------------------------------------------------------
 RA3HeadMotor::RA3HeadMotor(QObject *parent) : Vehicle(parent)
+  , coupling_fwd_module_name("sa3")
+  , coupling_fwd_config_name("sa3")
+  , coupling_bwd_module_name("sa3")
+  , coupling_bwd_config_name("sa3")
+  , coupling_fwd(nullptr)
+  , coupling_bwd(nullptr)
+  , oper_rod_fwd(nullptr)
+//  , oper_rod_bwd(nullptr)
   , num(4001)
   , ip1(1.2)
   , ip2(2.78)
@@ -33,7 +41,7 @@ RA3HeadMotor::RA3HeadMotor(QObject *parent) : Vehicle(parent)
   , autostart_timer(Q_NULLPTR)
   , count_step(0)
   , is_autostart(false)
-  , is_Registarator_on(false)
+  , is_Registrator_on(false)
 {
 
 }
@@ -54,6 +62,9 @@ void RA3HeadMotor::initialization()
     // Определяем путь к загружаемым модулям оборудования
     FileSystem &fs = FileSystem::getInstance();
     modules_dir = QString(fs.getModulesDir().c_str());
+
+    // Инициализация сцепных устройств
+    initCouplings();
 
     // Инициализация органов управления в кабине
     initCabineControls();
@@ -103,6 +114,10 @@ void RA3HeadMotor::initialization()
 //------------------------------------------------------------------------------
 void RA3HeadMotor::step(double t, double dt)
 {
+    // Моделирование сцепных устройств
+    stepCouplings(t, dt);
+
+    // Моделирование работы органов управления в кабине
     stepCabineControls(t, dt);
 
     // Работа системы питания топливом
@@ -162,6 +177,11 @@ void RA3HeadMotor::loadConfig(QString cfg_path)
     {
         QString secName = "Vehicle";
 
+        cfg.getString(secName, "CouplingModule", coupling_fwd_module_name);
+        cfg.getString(secName, "CouplingConfig", coupling_fwd_config_name);
+        coupling_bwd_module_name = coupling_fwd_module_name;
+        coupling_bwd_config_name = coupling_fwd_config_name;
+
         // Создаем и инициализируем топливные баки
         double fuel_capacity = 0;
         cfg.getDouble(secName, "FuelCapacity", fuel_capacity);
@@ -186,7 +206,7 @@ void RA3HeadMotor::loadConfig(QString cfg_path)
 
         cfg.getBool(secName, "Autostart", is_autostart);
 
-        cfg.getBool(secName, "isRegistratorOn", is_Registarator_on);
+        cfg.getBool(secName, "isRegistratorOn", is_Registrator_on);
     }
 }
 

@@ -45,6 +45,26 @@ public:
 
 private:
 
+    /// Имя модуля сцепного устройства спереди
+    QString coupling_fwd_module_name;
+    /// Имя конфига сцепного устройства спереди
+    QString coupling_fwd_config_name;
+
+    /// Имя модуля сцепного устройства сзади
+    QString coupling_bwd_module_name;
+    /// Имя конфига сцепного устройства сзади
+    QString coupling_bwd_config_name;
+
+    /// Сцепка спереди
+    Coupling *coupling_fwd;
+    /// Сцепка сзади
+    Coupling *coupling_bwd;
+
+    /// Расцепной рычаг спереди
+    OperatingRod *oper_rod_fwd;
+/*    /// Расцепной рычаг сзади
+    OperatingRod *oper_rod_bwd;*/
+
     /// Серийный номер вагона
     int num;
 
@@ -140,7 +160,7 @@ private:
     bool is_autostart;
 
     /// Признак включения регистрации
-    bool is_Registarator_on;
+    bool is_Registrator_on;
 
     /// Реле стартера
     Relay *starter_relay;
@@ -254,6 +274,9 @@ private:
 
     void initialization() override;
 
+    /// Инициализация сцепных устройств
+    void initCouplings();
+
     /// Инициализация органов управления в кабине
     void initCabineControls();
 
@@ -300,6 +323,9 @@ private:
     void initRegistrator();
 
     void step(double t, double dt) override;
+
+    /// Моделирование сцепных устройств
+    void stepCouplings(double t, double dt);
 
     /// Моделирование работы органов управления в кабине
     void stepCabineControls(double t, double dt);
