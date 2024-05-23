@@ -25,6 +25,26 @@ public:
 
 private:
 
+    /// Имя модуля сцепного устройства спереди
+    QString coupling_fwd_module_name;
+    /// Имя конфига сцепного устройства спереди
+    QString coupling_fwd_config_name;
+
+    /// Имя модуля сцепного устройства сзади
+    QString coupling_bwd_module_name;
+    /// Имя конфига сцепного устройства сзади
+    QString coupling_bwd_config_name;
+
+    /// Сцепка спереди
+    Coupling *coupling_fwd;
+    /// Сцепка сзади
+    Coupling *coupling_bwd;
+
+/*    /// Расцепной рычаг спереди
+    OperatingRod *oper_rod_fwd;
+    /// Расцепной рычаг сзади
+    OperatingRod *oper_rod_bwd;*/
+
     /// Серийный номер вагона
     int num;
 
@@ -107,6 +127,9 @@ private:
 
     void initialization() override;
 
+    /// Инициализация сцепных устройств
+    void initCouplings(QString modules_dir);
+
     /// Инициализация связей системы многих единиц (СМЕ)
     void initSME();
 
@@ -120,6 +143,9 @@ private:
     void initBrakesEquipment();
 
     void step(double t, double dt) override;
+
+    /// Моделирование сцепных устройств
+    void stepCouplings(double t, double dt);
 
     /// Моделирование сигналов СМЕ
     void stepSME(double t, double dt);

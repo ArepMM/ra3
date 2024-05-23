@@ -1,9 +1,19 @@
 #include    "ra3-middle.h"
 
+#include    "filesystem.h"
+
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
 RA3Middle::RA3Middle(QObject *parent) : Vehicle(parent)
+  , coupling_fwd_module_name("sa3")
+  , coupling_fwd_config_name("sa3")
+  , coupling_bwd_module_name("sa3")
+  , coupling_bwd_config_name("sa3")
+  , coupling_fwd(nullptr)
+  , coupling_bwd(nullptr)
+//  , oper_rod_fwd(nullptr)
+//  , oper_rod_bwd(nullptr)
   , num(4003)
   , main_res_leak(0.0)
   , door_R_state(1)
@@ -33,6 +43,13 @@ RA3Middle::~RA3Middle()
 //------------------------------------------------------------------------------
 void RA3Middle::initialization()
 {
+    // Определяем путь к загружаемым модулям оборудования
+    FileSystem &fs = FileSystem::getInstance();
+    QString modules_dir = QString(fs.getModulesDir().c_str());
+
+    // Инициализация сцепных устройств
+    initCouplings(modules_dir);
+
     // Инициализация связей системы многих единиц (СМЕ)
     initSME();
 
@@ -51,6 +68,9 @@ void RA3Middle::initialization()
 //------------------------------------------------------------------------------
 void RA3Middle::step(double t, double dt)
 {
+    // Моделирование сцепных устройств
+    stepCouplings(t, dt);
+
     // Моделирование сигналов СМЕ
     stepSME(t, dt);
 
