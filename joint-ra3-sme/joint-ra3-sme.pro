@@ -7,7 +7,7 @@ QT += xml
 # Имя итогового файла DLL и путь, куда он должен быть помещен после
 # сборки
 TARGET = joint-ra3-sme
-DESTDIR = $$(RRS_DEV_ROOT)/modules/ra3-head
+DESTDIR = ../../modules/ra3-head
 
 # Библиотеки симулятора, с которыми компонуется DLL локомотива
 LIBS += -L$$(RRS_DEV_ROOT)/bin -lCfgReader
