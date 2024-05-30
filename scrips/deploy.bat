@@ -13,10 +13,12 @@ mkdir %PKG_DIR%\%DIR_NAME%\cfg
 mkdir %PKG_DIR%\%DIR_NAME%\docs
 mkdir %PKG_DIR%\%DIR_NAME%\data
 mkdir %PKG_DIR%\%DIR_NAME%\modules\
-mkdir %PKG_DIR%\%DIR_NAME%\modules\%ADDON_NAME%
+mkdir %PKG_DIR%\%DIR_NAME%\modules\%ADDON_NAME%-head
+mkdir %PKG_DIR%\%DIR_NAME%\modules\%ADDON_NAME%-middle
 
 rem Копируем модули
-xcopy /E /Y ..\..\modules\%ADDON_NAME%\*.dll %PKG_DIR%\%DIR_NAME%\modules\%ADDON_NAME%
+xcopy /E /Y ..\..\modules\%ADDON_NAME%-head\*.dll %PKG_DIR%\%DIR_NAME%\modules\%ADDON_NAME%-head
+xcopy /E /Y ..\..\modules\%ADDON_NAME%-middle\*.dll %PKG_DIR%\%DIR_NAME%\modules\%ADDON_NAME%-middle
 
 rem Копируем конфиги
 xcopy /E /Y ..\cfg\*.* %PKG_DIR%\%DIR_NAME%\cfg\
