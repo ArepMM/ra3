@@ -142,6 +142,13 @@ private:
     /// Инициализация тормозного оборудования
     void initBrakesEquipment();
 
+    /// Предварительные расчёты перед симуляцией
+    void preStep(double t) override;
+
+    /// Предварительный расчёт координат сцепных устройств
+    void preStepCouplings(double t);
+
+    /// Шаг моделирования
     void step(double t, double dt) override;
 
     /// Моделирование сцепных устройств

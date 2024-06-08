@@ -11,7 +11,6 @@ void RA3HeadMotor::initRegistrator()
         return;
 
     reg = new Registrator();
-    reg->read_custom_config(config_dir +
-                            QDir::separator() +
-                            "registrator");
+    reg->setFileName("ra3-" + QString("%1").arg(num));
+    reg->init();
 }
