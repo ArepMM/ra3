@@ -101,7 +101,7 @@ void EmergencyBrakeValve::stepKeysControl(double t, double dt)
     Q_UNUSED(t)
     Q_UNUSED(dt)
 
-    if (getKeyState(KEY_X))
+    if (getKeyState(KEY_BackSpace))
     {
         if (isShift())
         {
