@@ -11,7 +11,7 @@ class AuxiliaryConverter : public Device
 {
 public:
 
-    AuxiliaryConverter(QString config_dir, QObject *parent = Q_NULLPTR);
+    AuxiliaryConverter(QString config_dir_path, QObject *parent = Q_NULLPTR);
 
     ~AuxiliaryConverter();
 

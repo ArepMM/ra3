@@ -3,8 +3,11 @@
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-void RA3Middle::initSME()
+void RA3Middle::initSME(const QString &modules_dir, const QString &custom_cfg_dir)
 {
+    (void) modules_dir;
+    (void) custom_cfg_dir;
+
     // Инициализация связей системы многих единиц (СМЕ)
     sme_fwd = new RA3SME();
     sme_fwd->setCustomConfigDir(config_dir);

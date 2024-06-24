@@ -5,10 +5,10 @@
 //------------------------------------------------------------------------------
 void RA3HeadMotor::debugOutput(double t, double dt)
 {
-    Q_UNUSED(dt)
+    (void) t;
+    (void) dt;
 
-    DebugMsg = QString("t%1 s|")
-            .arg(t, 7, 'f', 1);
+    DebugMsg = "";
     DebugMsg += QString("x%1 km|V%2 km/h|")
             .arg(railway_coord / 1000.0, 8, 'f', 3)
             .arg(velocity * Physics::kmh, 6, 'f', 1);
@@ -37,5 +37,4 @@ void RA3HeadMotor::debugOutput(double t, double dt)
             .arg(hydro_trans->getOutputTorque(), 6, 'f', 0)
             .arg(100.0 * (  hydro_trans->getTractionLevel()
                           - hydro_trans->getBrakeLevel()  ) , 4, 'f', 0);
-    DebugMsg += QString("          ");
 }

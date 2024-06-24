@@ -46,21 +46,23 @@ void RA3Middle::initialization()
     // Определяем путь к загружаемым модулям оборудования
     FileSystem &fs = FileSystem::getInstance();
     QString modules_dir = QString(fs.getModulesDir().c_str());
+    QString custom_cfg_dir(fs.getVehiclesDir().c_str());
+    custom_cfg_dir += fs.separator() + config_dir;
 
     // Инициализация сцепных устройств
-    initCouplings(modules_dir);
+    initCouplings(modules_dir, custom_cfg_dir);
 
     // Инициализация связей системы многих единиц (СМЕ)
-    initSME();
+    initSME(modules_dir, custom_cfg_dir);
 
     // Инициализация цепей управления
-    initControlCircuit();
+    initControlCircuit(modules_dir, custom_cfg_dir);
 
     // Инициализация системы обеспечения сжатым воздухом
-    initPneumoSupply();
+    initPneumoSupply(modules_dir, custom_cfg_dir);
 
     // Инициализация тормозного оборудования
-    initBrakesEquipment();
+    initBrakesEquipment(modules_dir, custom_cfg_dir);
 }
 
 //------------------------------------------------------------------------------

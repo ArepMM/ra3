@@ -1,6 +1,6 @@
 #include    "hydro-transmission.h"
 
-#include    <QDir>
+#include    "filesystem.h"
 
 //------------------------------------------------------------------------------
 //
@@ -181,10 +181,14 @@ void HydroTransmission::load_config(CfgReader &cfg)
 
     switch_relay->setRange(i_min, i_max);
 
-    QString path = custom_config_dir + QDir::separator() + "gdt.csv";
+    FileSystem &fs = FileSystem::getInstance();
+    QString cfg_dir(fs.getVehiclesDir().c_str());
+    cfg_dir += fs.separator() + custom_cfg_dir;
+
+    QString path = cfg_dir + "gdt.csv";
     gt_char.load(path.toStdString());
 
-    path = custom_config_dir + QDir::separator() + "gdm.csv";
+    path = cfg_dir + "gdm.csv";
     gm_char.load(path.toStdString());
 
     cfg.getDouble(secName, "T_revers", T_revers);

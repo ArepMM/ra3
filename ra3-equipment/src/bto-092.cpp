@@ -1,6 +1,6 @@
 #include    "bto-092.h"
 
-#include    <QDir>
+#include    "filesystem.h"
 
 //------------------------------------------------------------------------------
 //
@@ -351,22 +351,19 @@ void BTO092::load_config(CfgReader &cfg)
     bc_relay2->read_config("rd304");
     bc_reducer->read_config("pneumo-reducer");
     bc_reducer->setRefPressure(pBC_max);
-/*
-    keb->setCustomConfigDir(custom_config_dir);
-    keb->read_custom_config(custom_config_dir + QDir::separator() + "keb");
-*/
-    release_valve->read_custom_config(custom_config_dir +
-                                      QDir::separator() +
-                                      "ept_valve");
 
+    FileSystem &fs = FileSystem::getInstance();
+    QString cfg_dir(fs.getVehiclesDir().c_str());
+    cfg_dir += fs.separator() + custom_cfg_dir;
+/*
+    keb->setCustomConfigDir(cfg_dir);
+    keb->read_custom_config("keb", cfg_dir);
+*/
+    release_valve->read_config("ept_valve", cfg_dir);
     release_valve->setInitContactState(0, true);
 
-    brake_valve->read_custom_config(custom_config_dir +
-                                    QDir::separator() +
-                                    "ept_valve");
-
+    brake_valve->read_config("ept_valve", cfg_dir);
     brake_valve->setInitContactState(0, false);
 
     cfg.getDouble(secName, "ept_eps", ept_eps);
-    //cfg.getDouble(secName, "p_min", p_min);
 }

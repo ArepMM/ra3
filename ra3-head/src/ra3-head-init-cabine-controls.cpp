@@ -5,22 +5,24 @@
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-void RA3HeadMotor::initCabineControls()
+void RA3HeadMotor::initCabineControls(const QString &modules_dir, const QString &custom_cfg_dir)
 {
-    initTumblers("tumblers-config");
+    (void) modules_dir;
+
+    initTumblers("tumblers-config", custom_cfg_dir);
 
     km = new TracController();
-    km->read_custom_config(config_dir + QDir::separator() + "trac-controller");
+    km->read_config("trac-controller", custom_cfg_dir);
 }
 
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-void RA3HeadMotor::initTumblers(QString config_name)
+void RA3HeadMotor::initTumblers(const QString &config_name, const QString &custom_cfg_dir)
 {
     CfgReader cfg;
 
-    if (!cfg.load(config_dir + QDir::separator() + config_name + ".xml"))
+    if (!cfg.load(custom_cfg_dir + QDir::separator() + config_name + ".xml"))
         return;
 
 

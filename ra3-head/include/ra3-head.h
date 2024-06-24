@@ -248,9 +248,6 @@ private:
     /// Клапан аварийного экстренного торможения
     EmergencyBrakeValve *emerg_brake_valve;
 
-    /// Путь поиска загружаемых модулей оборудования
-    QString modules_dir;
-
     /// Топливные баки
     std::array<FuelTank *, NUM_TANKS> fuel_tank;
 
@@ -275,52 +272,52 @@ private:
     void initialization() override;
 
     /// Инициализация сцепных устройств
-    void initCouplings();
+    void initCouplings(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация органов управления в кабине
-    void initCabineControls();
+    void initCabineControls(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация связей системы многих единиц (СМЕ)
-    void initSME();
+    void initSME(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация переключателей
-    void initTumblers(QString config_name);
+    void initTumblers(const QString &config_name, const QString &custom_cfg_dir);
 
     /// Инициализация системы питания топливом
-    void initFuelSystem();
+    void initFuelSystem(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация цепей управления
-    void initControlCircuit();
+    void initControlCircuit(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация дизеля
-    void initDisel();
+    void initDisel(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация системы обеспечения сжатым воздухом
-    void initPneumoSupply();
+    void initPneumoSupply(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация приборов управления тормозами
-    void initBrakesControl();
+    void initBrakesControl(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация тормозного оборудования
-    void initBrakesEquipment();
+    void initBrakesEquipment(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация приборов безопасности
-    void initSafetyDevices();
+    void initSafetyDevices(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация подсистемы тяги (гидропередача и т.п.)
-    void initTraction();
+    void initTraction(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация прочего оборудования
-    void initOtherEquipment();
+    void initOtherEquipment(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация звуков
     void initSounds();
 
     /// Инициализация последовательности автозапуска
-    void initAutostart();
+    void initAutostart(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация регистратора
-    void initRegistrator();
+    void initRegistrator(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Предварительные расчёты перед симуляцией
     void preStep(double t) override;

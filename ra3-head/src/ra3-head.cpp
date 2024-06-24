@@ -61,52 +61,54 @@ void RA3HeadMotor::initialization()
 {
     // Определяем путь к загружаемым модулям оборудования
     FileSystem &fs = FileSystem::getInstance();
-    modules_dir = QString(fs.getModulesDir().c_str());
+    QString modules_dir = QString(fs.getModulesDir().c_str());
+    QString custom_cfg_dir(fs.getVehiclesDir().c_str());
+    custom_cfg_dir += fs.separator() + config_dir;
 
     // Инициализация сцепных устройств
-    initCouplings();
+    initCouplings(modules_dir, custom_cfg_dir);
 
     // Инициализация органов управления в кабине
-    initCabineControls();
+    initCabineControls(modules_dir, custom_cfg_dir);
 
     // Инициализация связей системы многих единиц (СМЕ)
-    initSME();
+    initSME(modules_dir, custom_cfg_dir);
 
     // Инициализация системы питания топливом
-    initFuelSystem();
+    initFuelSystem(modules_dir, custom_cfg_dir);
 
     // Инициализация цепей управления
-    initControlCircuit();
+    initControlCircuit(modules_dir, custom_cfg_dir);
 
     // Инициализация дизеля
-    initDisel();
+    initDisel(modules_dir, custom_cfg_dir);
 
     // Инициализация системы обеспечения сжатым воздухом
-    initPneumoSupply();
+    initPneumoSupply(modules_dir, custom_cfg_dir);
 
     // Инициализация приборов управления тормозами
-    initBrakesControl();
+    initBrakesControl(modules_dir, custom_cfg_dir);
 
     // Инициализация тормозного оборудования
-    initBrakesEquipment();
+    initBrakesEquipment(modules_dir, custom_cfg_dir);
 
     // Инициализация приборов безопасности
-    initSafetyDevices();
+    initSafetyDevices(modules_dir, custom_cfg_dir);
 
     // Инициализация подсистемы тяги
-    initTraction();
+    initTraction(modules_dir, custom_cfg_dir);
 
     // Инициализация разного оборудования
-    initOtherEquipment();
+    initOtherEquipment(modules_dir, custom_cfg_dir);
 
     // Инициализация озвучки
     initSounds();
 
     // Инициализация автозапуска
-    initAutostart();
+    initAutostart(modules_dir, custom_cfg_dir);
 
     // Инициализация регистратора
-    initRegistrator();
+    initRegistrator(modules_dir, custom_cfg_dir);
 }
 
 //------------------------------------------------------------------------------

@@ -5,8 +5,10 @@
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-void RA3HeadMotor::initAutostart()
+void RA3HeadMotor::initAutostart(const QString &modules_dir, const QString &custom_cfg_dir)
 {
+    (void) modules_dir;
+
     if (!is_autostart)
         return;
 
@@ -14,7 +16,7 @@ void RA3HeadMotor::initAutostart()
 
     CfgReader cfg;
 
-    QString path = config_dir +
+    QString path = custom_cfg_dir +
             QDir::separator() +
             "start-program.xml";
 

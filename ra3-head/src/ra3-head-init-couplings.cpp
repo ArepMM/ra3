@@ -1,12 +1,14 @@
-#include    "filesystem.h"
-
 #include    "ra3-head.h"
+
+#include    <QDir>
 
 //------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------
-void RA3HeadMotor::initCouplings()
+void RA3HeadMotor::initCouplings(const QString &modules_dir, const QString &custom_cfg_dir)
 {
+    (void) custom_cfg_dir;
+
     // Сцепные устройства
     coupling_fwd = loadCoupling(modules_dir + QDir::separator() + coupling_fwd_module_name);
     coupling_fwd->read_config(coupling_fwd_config_name);

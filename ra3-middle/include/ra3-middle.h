@@ -128,19 +128,19 @@ private:
     void initialization() override;
 
     /// Инициализация сцепных устройств
-    void initCouplings(QString modules_dir);
+    void initCouplings(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация связей системы многих единиц (СМЕ)
-    void initSME();
+    void initSME(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация цепей управления
-    void initControlCircuit();
+    void initControlCircuit(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация системы обеспечения сжатым воздухом
-    void initPneumoSupply();
+    void initPneumoSupply(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация тормозного оборудования
-    void initBrakesEquipment();
+    void initBrakesEquipment(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Предварительные расчёты перед симуляцией
     void preStep(double t) override;

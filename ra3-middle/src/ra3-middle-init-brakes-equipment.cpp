@@ -5,8 +5,10 @@
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-void RA3Middle::initBrakesEquipment()
+void RA3Middle::initBrakesEquipment(const QString &modules_dir, const QString &custom_cfg_dir)
 {
+    (void) modules_dir;
+
     // Тормозная магистраль
     double volume_bp = length * 0.0343 * 0.0343 * Physics::PI / 4.0;
     brakepipe = new Reservoir(volume_bp);
@@ -15,7 +17,7 @@ void RA3Middle::initBrakesEquipment()
     // Блок тормозного оборудования БТО-092
     brake_module = new BTO092();
     brake_module->setCustomConfigDir(config_dir);
-    brake_module->read_custom_config(config_dir + QDir::separator() + "bto092");
+    brake_module->read_config("bto092", custom_cfg_dir);
 
     // Тройник на питание СТ
     pb_split = new PneumoSplitter();
@@ -23,14 +25,12 @@ void RA3Middle::initBrakesEquipment()
 
     // Тормозные рычажные передачи
     brake_mech[TROLLEY_FWD] = new RA3BrakeMech(NUM_AXIS_PER_TROLLEY);
-    brake_mech[TROLLEY_FWD]->read_custom_config(
-                config_dir + QDir::separator() + "brake-mech");
+    brake_mech[TROLLEY_FWD]->read_config("brake-mech", custom_cfg_dir);
     brake_mech[TROLLEY_FWD]->setWheelRadius(rk[0]);
     brake_mech[TROLLEY_FWD]->setEffFricRadius(rk[0]);
 
     brake_mech[TROLLEY_BWD] = new RA3BrakeMech(NUM_AXIS_PER_TROLLEY);
-    brake_mech[TROLLEY_BWD]->read_custom_config(
-                config_dir + QDir::separator() + "brake-mech");
+    brake_mech[TROLLEY_BWD]->read_config("brake-mech", custom_cfg_dir);
     brake_mech[TROLLEY_BWD]->setWheelRadius(rk[NUM_AXIS_PER_TROLLEY]);
     brake_mech[TROLLEY_BWD]->setEffFricRadius(rk[NUM_AXIS_PER_TROLLEY]);
 

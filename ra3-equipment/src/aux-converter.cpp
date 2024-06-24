@@ -5,7 +5,7 @@
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-AuxiliaryConverter::AuxiliaryConverter(QString config_dir, QObject *parent) : Device(parent)
+AuxiliaryConverter::AuxiliaryConverter(QString config_dir_path, QObject *parent) : Device(parent)
   , k_380(0.0)
   , k_110(0.0)
   , k_27(0.0)
@@ -18,10 +18,8 @@ AuxiliaryConverter::AuxiliaryConverter(QString config_dir, QObject *parent) : De
   , U_110(0.0)
   , U_27(0.0)
 {
-    setCustomConfigDir(config_dir);
-
     KM_gen = new Relay(2);
-    KM_gen->read_custom_config(custom_config_dir + QDir::separator() + "mk");
+    KM_gen->read_config("mk", config_dir_path);
     KM_gen->setInitContactState(0, false);
     KM_gen->setInitContactState(1, false);
 }

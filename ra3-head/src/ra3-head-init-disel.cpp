@@ -5,10 +5,12 @@
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-void RA3HeadMotor::initDisel()
+void RA3HeadMotor::initDisel(const QString &modules_dir, const QString &custom_cfg_dir)
 {
+    (void) modules_dir;
+
     disel = new Disel();
-    disel->read_custom_config(config_dir + QDir::separator() + "disel");
+    disel->read_config("disel", custom_cfg_dir);
 
     if (is_active)
         disel->setName("d1");
@@ -16,10 +18,10 @@ void RA3HeadMotor::initDisel()
         disel->setName("d2");
 
     starter = new Starter();
-    starter->read_custom_config(config_dir + QDir::separator() + "starter");
+    starter->read_config("starter", custom_cfg_dir);
 
     starter_relay = new Relay(2);
-    starter_relay->read_custom_config(config_dir + QDir::separator() + "starter-relay");
+    starter_relay->read_config("starter-relay", custom_cfg_dir);
     starter_relay->setInitContactState(0, false);
     starter_relay->setInitContactState(1, false);
 }

@@ -5,12 +5,12 @@
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-void RA3HeadMotor::initOtherEquipment()
+void RA3HeadMotor::initOtherEquipment(const QString &modules_dir, const QString &custom_cfg_dir)
 {
+    (void) modules_dir;
+
     horn = new TrainHorn();
 
     hydro_pump = new HydroPump();
-    hydro_pump->read_custom_config(config_dir +
-                                   QDir::separator() +
-                                   "hydro-pump");    
+    hydro_pump->read_config("hydro-pump", custom_cfg_dir);
 }

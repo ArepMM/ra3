@@ -1,18 +1,25 @@
 #include    "ra3-head.h"
 
-#include    <QDir>
+#include    "filesystem.h"
 
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-void RA3HeadMotor::initSafetyDevices()
+void RA3HeadMotor::initSafetyDevices(const QString &modules_dir, const QString &custom_cfg_dir)
 {
-    blok = new BLOK();
-    blok->read_custom_config(config_dir +
-                             QDir::separator() +
-                             "blok");
+    (void) modules_dir;
+    (void) custom_cfg_dir;
 
-    blok->setMaxVelocity(120);
+    blok = new BLOK();
+    blok->setMaxVelocity(120.0);
+    blok->setDirection(dir * orient);
+    blok->setTrainLength(mpsu->getOutputData().train_length);
+    //Конфиг для БЛОК не сделан
+    //blok->read_config("blok", custom_cfg_dir);
+
+    FileSystem &fs = FileSystem::getInstance();
+    QString route_path = fs.getRouteRootDir().c_str();
+    route_path += QDir::separator() + route_dir;
 
     // Загрузка электронной карты в БЛОК
     QString speeds_name = "speeds";
@@ -22,16 +29,10 @@ void RA3HeadMotor::initSafetyDevices()
     else
         speeds_name += "2";
 
-    QString path = QDir::toNativeSeparators(route_dir) +
-            QDir::separator() + speeds_name + ".conf";
-
+    QString path = route_path + QDir::separator() + speeds_name + ".conf";
     blok->loadSpeedsMap(path);
-    blok->setDirection(dir * orient);
-    blok->setTrainLength(mpsu->getOutputData().train_length);
 
     // Загрузка станций в БЛОК
-    path = QDir::toNativeSeparators(route_dir) +
-            QDir::separator() + "stations.conf";
-
+    path = route_path + QDir::separator() + "stations.conf";
     blok->loadStationsMap(path);
 }

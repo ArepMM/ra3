@@ -5,8 +5,11 @@
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-void RA3Middle::initPneumoSupply()
+void RA3Middle::initPneumoSupply(const QString &modules_dir, const QString &custom_cfg_dir)
 {
+    (void) modules_dir;
+    (void) custom_cfg_dir;
+
     // Главный резервуар
     double volume_main = 0.3;
     main_reservoir = new Reservoir(volume_main);
@@ -18,17 +21,21 @@ void RA3Middle::initPneumoSupply()
 
     // Концевые краны питательной магистрали
     anglecock_fl_fwd = new PneumoAngleCock();
+    //anglecock_fl_fwd->setKeyCode(0);
     anglecock_fl_fwd->read_config("pneumo-anglecock-FL");
 
     anglecock_fl_bwd = new PneumoAngleCock();
+    //anglecock_fl_bwd->setKeyCode(0);
     anglecock_fl_bwd->read_config("pneumo-anglecock-FL");
 
     // Рукава питательной магистрали
     hose_fl_fwd = new PneumoHose();
+    //hose_fl_fwd->setKeyCode(0);
     hose_fl_fwd->read_config("pneumo-hose-FL");
     forward_connectors.push_back(hose_fl_fwd);
 
     hose_fl_bwd = new PneumoHose();
+    //hose_fl_bwd->setKeyCode(0);
     hose_fl_bwd->read_config("pneumo-hose-FL");
     backward_connectors.push_back(hose_fl_bwd);
 }

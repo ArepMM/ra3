@@ -5,11 +5,11 @@
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-void RA3HeadMotor::initTraction()
+void RA3HeadMotor::initTraction(const QString &modules_dir, const QString &custom_cfg_dir)
 {
+    (void) modules_dir;
+
     hydro_trans = new HydroTransmission();
     hydro_trans->setCustomConfigDir(config_dir);
-    hydro_trans->read_custom_config(config_dir +
-                                    QDir::separator() +
-                                    "hydro-transmission");
+    hydro_trans->read_config("hydro-transmission", custom_cfg_dir);
 }
