@@ -2,8 +2,6 @@
 <Config>
 
 	<Common>
-		<CouplingModule>ef-coupling</CouplingModule>
-		<CabineInVehicle>0</CabineInVehicle>
 		<ChargingPressure>0.5</ChargingPressure>
 		<InitMainResPressure>0.8</InitMainResPressure>
 		<NoAir>0</NoAir>
@@ -12,27 +10,33 @@
 	</Common>
 
 	<Vehicle>
-		 <Module>ra3-head</Module>
-		 <ModuleConfig>ra3-03502-active</ModuleConfig>
-		 <Count>1</Count>
-		 <IsOrientationForward>1</IsOrientationForward>
-		 <PayloadCoeff>1</PayloadCoeff>
+		<ModuleDir>ra3-head</ModuleDir>
+		<Module>ra3-head</Module>
+		<ModuleConfigDir>ra3-head</ModuleConfigDir>
+		<ModuleConfig>ra3-03502-active</ModuleConfig>
+		<IsOrientationForward>1</IsOrientationForward>
+		<Count>1</Count>
+		<PayloadCoeff>1</PayloadCoeff>	
 	</Vehicle>
 
 	<Vehicle>
-		 <Module>ra3-middle</Module>
-		 <ModuleConfig>ra3-03503</ModuleConfig>
-		 <Count>1</Count>
-		 <IsOrientationForward>1</IsOrientationForward>
-		 <PayloadCoeff>1</PayloadCoeff>
+		<ModuleDir>ra3-middle</ModuleDir>
+		<Module>ra3-middle</Module>
+		<ModuleConfigDir>ra3-middle</ModuleConfigDir>
+		<ModuleConfig>ra3-03503</ModuleConfig>
+		<IsOrientationForward>1</IsOrientationForward>
+		<Count>1</Count>
+		<PayloadCoeff>1</PayloadCoeff>
 	</Vehicle>
 
 	<Vehicle>
-		 <Module>ra3-head</Module>
-		 <ModuleConfig>ra3-03501</ModuleConfig>
-		 <Count>1</Count>
-		 <IsOrientationForward>0</IsOrientationForward>
-		 <PayloadCoeff>1</PayloadCoeff>
+		<ModuleDir>ra3-head</ModuleDir>
+		<Module>ra3-head</Module>
+		<ModuleConfigDir>ra3-head</ModuleConfigDir>
+		<ModuleConfig>ra3-03501</ModuleConfig>
+		<IsOrientationForward>0</IsOrientationForward>
+		<Count>1</Count>
+		<PayloadCoeff>1</PayloadCoeff>
 	</Vehicle>
 
 </Config>

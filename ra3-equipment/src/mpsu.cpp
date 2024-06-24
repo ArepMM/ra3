@@ -17,7 +17,7 @@ MPSU::MPSU(QObject *parent) : Device(parent)
   , button_speed_minus_old(false)
   , is_speed_hold_disable(false)
   , Kp(1.0)
-  , Ki(0.0)
+  , Ki(0.01)
   , dv(0.0)
   , u(0.0)
   , T(0.5)
@@ -103,9 +103,7 @@ void MPSU::preStep(state_vector_t &Y, double t)
 //------------------------------------------------------------------------------
 void MPSU::ode_system(const state_vector_t &Y, state_vector_t &dYdt, double t)
 {
-    Q_UNUSED(Y)
-    Q_UNUSED(dYdt)
-    Q_UNUSED(t)
+    (void) t;
 
     dYdt[0] = Ki * dv;
     dYdt[1] = (u - Y[1]) / T;
@@ -116,15 +114,18 @@ void MPSU::ode_system(const state_vector_t &Y, state_vector_t &dYdt, double t)
 //------------------------------------------------------------------------------
 void MPSU::load_config(CfgReader &cfg)
 {
-    Q_UNUSED(cfg)
-
     QString secName = "Device";
 
     cfg.getDouble(secName, "n_min", n_min);
     cfg.getDouble(secName, "n_max", n_max);
+    cfg.getDouble(secName, "n_min_gb", n_min_gb);
+
     cfg.getDouble(secName, "v_HB", v_HB);
     cfg.getDouble(secName, "p_HB", p_HB);
-    cfg.getDouble(secName, "n_min_gb", n_min_gb);
+
+    cfg.getDouble(secName, "Kp", Kp);
+    cfg.getDouble(secName, "Ki", Ki);
+    cfg.getDouble(secName, "T", T);
 
     cfg.getDouble(secName, "lengthHead", lengthHead);
     cfg.getDouble(secName, "lengthMiddle", lengthMiddle);
