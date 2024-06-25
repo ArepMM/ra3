@@ -32,9 +32,6 @@ HydroTransmission::HydroTransmission(QObject *parent) : Device(parent)
   , k_gb(0.0)
   , brake_level_ref(0.0)
   , brake_level(0.0)
-  , Kp(1.0)
-  , Ki(0.0)
-  , delta_level(0.0)
   , switch_relay(new Hysteresis(i_min, i_max, false))
 {
     setY(3, revers_pos_ref);
@@ -129,9 +126,7 @@ void HydroTransmission::preStep(state_vector_t &Y, double t)
     u_gm = (1.0 - u_gt) * qAbs(revers_state * revers_handle) * u_torque;
     u_gb = u_brake;
 
-    M_in = cut(Y[0] + Y[1], 0.0, 1.0) * k *  pow(omega_in, 2);
-
-    double k_gm = getHydroCouplingCoeff(omega_in, omega_out);
+    M_in = cut(Y[0] + Y[1], 0.0, 1.0) * k * pow(omega_in, 2);
 
     M_gb = k_gb * brake_level_ref * Y[2] * pow(omega_out, 2);
 
@@ -140,7 +135,8 @@ void HydroTransmission::preStep(state_vector_t &Y, double t)
     brake_level = M_gb / brakeTorqueLimit(omega_out);
 
     M_out = Y[0] * getHydroTranstCoeff(omega_in, omega_out) * M_in +
-            Y[1] * k_gm * M_in - M_gb;
+            Y[1] * getHydroCouplingCoeff(omega_in, omega_out) * M_in
+            - M_gb;
 }
 
 //------------------------------------------------------------------------------
@@ -161,8 +157,6 @@ void HydroTransmission::ode_system(const state_vector_t &Y,
     dYdt[2] = (u_gb - Y[2]) / T_gt;
 
     dYdt[3] = (1.05 * revers_pos_ref - Y[3]) / T_revers;
-
-    dYdt[4] = delta_level;
 }
 
 //------------------------------------------------------------------------------
@@ -183,12 +177,12 @@ void HydroTransmission::load_config(CfgReader &cfg)
 
     FileSystem &fs = FileSystem::getInstance();
     QString cfg_dir(fs.getVehiclesDir().c_str());
-    cfg_dir += fs.separator() + custom_cfg_dir;
+    cfg_dir += QDir::separator() + custom_cfg_dir;
 
-    QString path = cfg_dir + "gdt.csv";
+    QString path = cfg_dir + QDir::separator() + "gdt.csv";
     gt_char.load(path.toStdString());
 
-    path = cfg_dir + "gdm.csv";
+    path = cfg_dir + QDir::separator() + "gdm.csv";
     gm_char.load(path.toStdString());
 
     cfg.getDouble(secName, "T_revers", T_revers);
@@ -198,9 +192,6 @@ void HydroTransmission::load_config(CfgReader &cfg)
 
     M_gb_max = P_gb * 1000.0 / omega_db_max;
     k_gb = M_gb_max / omega_db_max / omega_db_max;
-
-    cfg.getDouble(secName, "Kp", Kp);
-    cfg.getDouble(secName, "Ki", Ki);
 }
 
 //------------------------------------------------------------------------------

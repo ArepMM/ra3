@@ -129,13 +129,6 @@ private:
     /// Текущий уровень тормозного усилия при ГДТ
     double brake_level;
 
-    double Kp;
-
-    double Ki;
-
-    /// Ошибка по уровню тормозного усилия ГДТ
-    double delta_level;
-
     /// Характеристика гидротрансформатора
     LinearInterpolation gt_char;
 

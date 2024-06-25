@@ -16,7 +16,7 @@
 		<ModuleConfig>ra3-03701-active</ModuleConfig>
 		<IsOrientationForward>1</IsOrientationForward>
 		<Count>1</Count>
-		<PayloadCoeff>1</PayloadCoeff>	
+		<PayloadCoeff>1</PayloadCoeff>
 	</Vehicle>
 
 	<Vehicle>
