@@ -9,7 +9,7 @@ void RA3HeadMotor::controlLampsSignalsOutput(double t, double dt)
     Q_UNUSED(dt);
 
     // "АКТИВНАЯ КАБИНА"
-    analogSignal[ACTIVE_COCKPIT] = static_cast<float>(is_active);
+    analogSignal[ACTIVE_COCKPIT] = static_cast<float>(active_cab_relay->getContactState(1));
 
     // "БАТАРЕЯ" (показывает что сеть питается от батареи)
     analogSignal[BATTERY] = static_cast<float>(hs_n(bat110->getCargeCurrent()));

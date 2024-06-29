@@ -7,7 +7,6 @@ void RA3HeadMotor::debugOutput(double t, double dt)
 {
     (void) t;
     (void) dt;
-
     DebugMsg = "";
     DebugMsg += QString("x%1 km|V%2 km/h|")
             .arg(railway_coord / 1000.0, 8, 'f', 3)

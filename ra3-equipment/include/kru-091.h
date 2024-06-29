@@ -15,6 +15,16 @@ public:
 
     ~KRU091();
 
+    /// Задать состояние органу активации тормозов (ОАТ)
+    void setActive(bool active_state);
+/*
+    // электрическое включение-отключение крана не реализовано
+    /// Задать напряжение на вентиль включения ОАТ (ЭПВН1 БИ)
+    void setActiveVoltage(double U);
+
+    /// Задать напряжение на вентиль отключения ОАТ (ЭПВН2 БИ)
+    void setInactiveVoltage(double U);
+*/
     void step(double t, double dt) override;
 
     void setHandlePosition(int &position) override;
@@ -26,6 +36,9 @@ public:
     void init(double pBP, double pFL) override;
 
 private:
+
+    /// Состояние органа активации тормозов
+    bool is_active;
 
     enum
     {

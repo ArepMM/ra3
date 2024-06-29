@@ -8,6 +8,9 @@ void RA3HeadMotor::initSounds()
     connect(KM_power, &Relay::soundPlay, this, &RA3HeadMotor::soundPlay);
     KM_power->setSoundName("Relay");
 
+    connect(active_cab_relay, &Relay::soundPlay, this, &RA3HeadMotor::soundPlay);
+    active_cab_relay->setSoundName("Relay");
+
     connect(horn, &TrainHorn::soundPlay, this, &RA3HeadMotor::soundPlay);
     connect(horn, &TrainHorn::soundStop, this, &RA3HeadMotor::soundStop);
 
@@ -24,16 +27,16 @@ void RA3HeadMotor::initSounds()
     connect(disel, &Disel::soundSetPitch, this, &RA3HeadMotor::soundSetPitch);
     connect(disel, &Disel::soundSetVolume, this, &RA3HeadMotor::soundSetVolume);
 
-    if (is_active)
-    {
+/*    if (active_cab_relay->getContactState(1))
+    {*/
         fuel_pump->setSoundName("Fuel_Pump1");
         starter->setSoundName("Starter1");
-    }
+/*    }
     else
     {
         fuel_pump->setSoundName("Fuel_Pump2");
         starter->setSoundName("Starter2");
-    }
+    }*/
 
     connect(epk, &AutoTrainStop::soundPlay,
             this, &RA3HeadMotor::soundPlay);

@@ -9,8 +9,15 @@ void RA3HeadMotor::initCabineControls(const QString &modules_dir, const QString 
 {
     (void) modules_dir;
 
+    // Реле активной кабины
+    active_cab_relay = new Relay(2);
+    active_cab_relay->read_config("mk", custom_cfg_dir);
+    active_cab_relay->setInitContactState(0, false);
+    active_cab_relay->setInitContactState(1, false);
+
     initTumblers("tumblers-config", custom_cfg_dir);
 
+    // Контроллер машиниста
     km = new TracController();
     km->read_config("trac-controller", custom_cfg_dir);
 }

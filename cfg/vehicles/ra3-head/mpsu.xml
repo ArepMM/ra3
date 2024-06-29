@@ -12,9 +12,9 @@
 		<p_HB>0.15</p_HB>
 		<v_HB>1.0</v_HB>
 
-		<Kp>1.00</Kp>
-		<Ki>0.01</Ki>
-		<T>0.5</T>
+		<Kp>0.5</Kp>
+		<Ki>0.1</Ki>
+		<T>0.2</T>
 
 		<lengthHead>24.24</lengthHead>
 		<lengthMiddle>24.7</lengthMiddle>

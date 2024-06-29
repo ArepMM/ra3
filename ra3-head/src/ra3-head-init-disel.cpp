@@ -12,10 +12,11 @@ void RA3HeadMotor::initDisel(const QString &modules_dir, const QString &custom_c
     disel = new Disel();
     disel->read_config("disel", custom_cfg_dir);
 
-    if (is_active)
+    // Переключение звука дизеля в неактивных секциях отключено, поскольку все равно не используется
+/*    if (active_cab_relay->getContactState(1))*/
         disel->setName("d1");
-    else
-        disel->setName("d2");
+/*    else
+        disel->setName("d2");*/
 
     starter = new Starter();
     starter->read_config("starter", custom_cfg_dir);

@@ -7,13 +7,13 @@ void RA3HeadMotor::stepBrakesEquipment(double t, double dt)
 {
     // Тормозная магистраль
     double BP_flow = 0.0;
-    if (is_active)
+    if (active_cab_relay->getContactState(1))
     {
         BP_flow += km->getBPflow();
         BP_flow += kru->getBPflow();
-        BP_flow += emerg_brake_valve->getBPflow();
         BP_flow += epk->getBPflow();
     }
+    BP_flow += emerg_brake_valve->getBPflow();
     BP_flow += brake_module->getBPflow();
 
     anglecock_bp_fwd->setHoseFlow(hose_bp_fwd->getFlow());
@@ -31,9 +31,9 @@ void RA3HeadMotor::stepBrakesEquipment(double t, double dt)
     brake_module->releaseBrakes(mpsu->getOutputData().release_PB);
 
     bool is_parking_braked =
-            (is_active && tumbler[SWITCH_PARKING_BRAKE].getState())
-             || static_cast<bool>(sme_fwd->getSignal(SME_PARKING_BRAKE_ON))
-             || static_cast<bool>(sme_bwd->getSignal(SME_PARKING_BRAKE_ON));
+            ( tumbler[SWITCH_PARKING_BRAKE].getState() && active_cab_relay->getContactState(1) ) ||
+            static_cast<bool>(sme_fwd->getSignal(SME_PARKING_BRAKE_ON)) ||
+            static_cast<bool>(sme_bwd->getSignal(SME_PARKING_BRAKE_ON));
     brake_module->setParkingBrakeState(is_parking_braked);
 
     brake_module->setSRpressure(supply_reservoir->getPressure());

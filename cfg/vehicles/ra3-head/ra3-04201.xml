@@ -15,13 +15,11 @@
 		<FuelLevel>1.0</FuelLevel>
 
 		<MainResLeak>4e-5</MainResLeak>
-		<Number>2801</Number>
+		<Number>4201</Number>
 
 		<!-- Передаточные числа тяговых редукторов -->
 		<ip1>1.2</ip1>
 		<ip2>2.78</ip2>
-
-		<IsActive>1</IsActive>
 
 		<ExtModelName>ra3/RA3-head-fwd.osgt</ExtModelName>
 		<ModelShift>0.0 -0.025 0.05</ModelShift>
@@ -29,7 +27,7 @@
 		<CabineModel>ra3/RA3-cabview-fwd.osgt</CabineModel>
 		<CabineShift>0.0 0.075 0.05</CabineShift>
 
-		<ExtTexturesDir>ra3/textures-028_rzd</ExtTexturesDir>
+		<ExtTexturesDir>ra3/textures-042_uppk</ExtTexturesDir>
 		<AnimationsConfigDir>ra3-head</AnimationsConfigDir>
 
 		<DriverPos>0.56 9.95 2.9</DriverPos>

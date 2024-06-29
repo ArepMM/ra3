@@ -5,16 +5,28 @@
 //------------------------------------------------------------------------------
 void RA3HeadMotor::stepCabineControls(double t, double dt)
 {
-    is_active = is_active_ref
-              && (static_cast<int>(sme_fwd->getSignal(SME_NO_ACTIVE)) != 1.0)
-              && (static_cast<int>(sme_bwd->getSignal(SME_NO_ACTIVE)) != 1.0);
-
-    if (is_active)
+    // Включение реле активной кабины
+    // Если другие активные кабины в составе - отключаем и не проверяем включение
+    if ( (sme_fwd->getSignal(SME_NO_ACTIVE) != 0.0) ||
+         (sme_bwd->getSignal(SME_NO_ACTIVE) != 0.0) )
     {
-        km->setControl(keys);
-        km->setFwdKey(tumbler[SWITCH_REVERS_FWD].getState());
-        km->setBwdKey(tumbler[SWITCH_REVERS_BWD].getState());
-        km->setBPpressure(brakepipe->getPressure());
-        km->step(t, dt);
+        active_cab_relay->setVoltage(0.0);
     }
+    else
+    {
+        // Включаем вместе с борсетью и проверяем самоподпитку
+        bool is_active = tumbler[BUTTON_PWR_ON].getState() ||
+                         active_cab_relay->getContactState(0);
+
+        // Подаём напряжение для включения
+        active_cab_relay->setVoltage(Ucc_110 * static_cast<double>(is_active));
+    }
+    active_cab_relay->step(t, dt);
+
+    // Контроллер машиниста
+    km->setControl(keys);
+    km->setFwdKey(tumbler[SWITCH_REVERS_FWD].getState());
+    km->setBwdKey(tumbler[SWITCH_REVERS_BWD].getState());
+    km->setBPpressure(brakepipe->getPressure());
+    km->step(t, dt);
 }

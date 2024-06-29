@@ -39,6 +39,14 @@ KRU091::~KRU091()
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
+void KRU091::setActive(bool active_state)
+{
+    is_active = active_state;
+}
+
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
 void KRU091::step(double t, double dt)
 {
     reducer->setRefPressure(p0);
@@ -54,18 +62,29 @@ void KRU091::step(double t, double dt)
 void KRU091::setHandlePosition(int &position)
 {
     handle_pos = position;
+
+    if (!is_active)
+    {
+        vr = 1.0;
+        vb = 0.0;
+        return;
+    }
+
     switch (position)
     {
     case POS_RELEASE:
         vr = 1.0;
+        vb = 0.0;
         break;
 
     case POS_BRAKE:
+        vr = 0.0;
         vb = 1.0;
         break;
 
     default:
-        vr = vb = 0.0;
+        vr = 0.0;
+        vb = 0.0;
         break;
     }
 }
@@ -91,7 +110,7 @@ double KRU091::getHandlePosition() const
 //------------------------------------------------------------------------------
 void KRU091::init(double pBP, double pFL)
 {
-    Q_UNUSED(pFL)
+    (void) pFL;
 
     setY(ER_PRESSURE, pBP);
 }
@@ -101,7 +120,16 @@ void KRU091::init(double pBP, double pFL)
 //------------------------------------------------------------------------------
 void KRU091::preStep(state_vector_t &Y, double t)
 {
-    Q_UNUSED(t)
+    (void) t;
+
+    if (!is_active)
+    {
+        QFL = -reducer->getInputFlow();
+        QBP = 0.0;
+        emit soundSetVolume("KRU-091_brake", 0);
+        emit soundSetVolume("KRU-091_release", 0);
+        return;
+    }
 
     // Разница давлений в РР и ТМ
     double dp = A * (Y[ER_PRESSURE] - pBP);
@@ -119,8 +147,8 @@ void KRU091::preStep(state_vector_t &Y, double t)
     // Суммарный поток в тормозную магистраль
     QBP = Q_charge_bp - Q_brake_bp;
 
-    emit soundSetVolume("KRU-091_brake", qRound(2e5 * Q_brake_bp));
-    emit soundSetVolume("KRU-091_release", qRound(2e6 * Q_charge_bp));
+    emit soundSetVolume("KRU-091_brake", qRound(1e5 * Q_brake_bp));
+    emit soundSetVolume("KRU-091_release", qRound(1e6 * Q_charge_bp));
 }
 
 //------------------------------------------------------------------------------

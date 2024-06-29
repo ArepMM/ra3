@@ -13,7 +13,7 @@
 		<ModuleDir>ra3-head</ModuleDir>
 		<Module>ra3-head</Module>
 		<ModuleConfigDir>ra3-head</ModuleConfigDir>
-		<ModuleConfig>ra3-03701-active</ModuleConfig>
+		<ModuleConfig>ra3-03701</ModuleConfig>
 		<IsOrientationForward>1</IsOrientationForward>
 		<Count>1</Count>
 		<PayloadCoeff>1</PayloadCoeff>

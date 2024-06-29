@@ -9,7 +9,7 @@ void RA3HeadMotor::stepTraction(double t, double dt)
 
     bool is_auto_traction = mpsu->getOutputData().auto_trac_level > 0.01;
 
-    if (is_active)
+    if (active_cab_relay->getContactState(1))
     {
         hydro_trans->setRefReversState(km->getReversHandlePos());
         hydro_trans->setTractionMode( (km->isTraction() || is_auto_traction) &&

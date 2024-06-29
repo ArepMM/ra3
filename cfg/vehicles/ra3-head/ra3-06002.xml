@@ -21,8 +21,6 @@
 		<ip1>1.2</ip1>
 		<ip2>2.78</ip2>
 
-		<IsActive>1</IsActive>
-
 		<ExtModelName>ra3/RA3-head-fwd.osgt</ExtModelName>
 		<ModelShift>0.0 -0.025 0.05</ModelShift>
 

@@ -29,24 +29,38 @@ void RA3HeadMotor::stepMPSU(double t, double dt)
 
     mpsu_input.v_kmh = qAbs(wheel_omega[0] * wheel_diameter[0] * Physics::kmh / 2.0);
 
-    if (is_active)
-    {
+    if (active_cab_relay->getContactState(1))
+    {   // Активная кабина
+
+        // Позиция реверсора
         mpsu_input.revers_handle = static_cast<int>(km->getReversHandlePos());
+
+        // Позиция контроллера машиниста
         mpsu_input.is_KM_zero = km->isZero();
         mpsu_input.is_KM_traction = km->isTraction();
         mpsu_input.is_KM_brake = km->isBrake();
         mpsu_input.trac_level_KM = km->getTractionLevel();
         mpsu_input.brake_level_KM = km->getBrakeLevel();
 
+        // Состояние приборов безопасности
         mpsu_input.is_autostop_ON = epk->getStateKey();
+
+        // Обеспечение режима поддержания заданной скорости
+        mpsu_input.button_speed_hold = button_speed_hold.getState();
+        mpsu_input.button_speed_select = tumbler[BUTTON_SPEED_SELECTION].getState();
+        mpsu_input.button_speed_plus = tumbler[BUTTON_SPEED_PLUS].getState();
+        mpsu_input.button_speed_minus = tumbler[BUTTON_SPEED_MINUS].getState();
+
     }
     else
     {
-        // Сигнал позиции реверсора принимаем спереди наоборот, сзади правильно
+        // Позиция реверсора из сигналов СМЕ
+        // Принимаем спереди наоборот, сзади правильно
         mpsu_input.revers_handle =
               - static_cast<int>(sme_fwd->getSignal(SME_REVERS_HANDLE))
               + static_cast<int>(sme_bwd->getSignal(SME_REVERS_HANDLE));
 
+        // Позиции контроллера и уровень тяги-торможения из сигналов СМЕ
         mpsu_input.is_KM_zero =
                 ( (sme_fwd->getSignal(SME_KM_STATE) + sme_bwd->getSignal(SME_KM_STATE)) == 0.0);
         mpsu_input.is_KM_traction =
@@ -58,16 +72,16 @@ void RA3HeadMotor::stepMPSU(double t, double dt)
         mpsu_input.brake_level_KM =
                 (sme_fwd->getSignal(SME_BRAKE_LEVEL) + sme_bwd->getSignal(SME_BRAKE_LEVEL));
 
+        // Игнорируем все кнопки
         mpsu_input.is_autostop_ON =
                 static_cast<bool>(sme_fwd->getSignal(SME_IS_AUTOSTOP_ON)) ||
                 static_cast<bool>(sme_bwd->getSignal(SME_IS_AUTOSTOP_ON));
-    }
+        mpsu_input.button_speed_hold = false;
+        mpsu_input.button_speed_select = false;
+        mpsu_input.button_speed_plus = false;
+        mpsu_input.button_speed_minus = false;
 
-    // Обеспечение режима поддержания заданной скорости
-    mpsu_input.button_speed_hold = button_speed_hold.getState();
-    mpsu_input.button_speed_select = tumbler[BUTTON_SPEED_SELECTION].getState();
-    mpsu_input.button_speed_plus = tumbler[BUTTON_SPEED_PLUS].getState();
-    mpsu_input.button_speed_minus = tumbler[BUTTON_SPEED_MINUS].getState();
+    }
 
     mpsu_input.pBC_max = brake_module->getMaxBCpressure();
 
@@ -107,8 +121,8 @@ void RA3HeadMotor::stepMPSU(double t, double dt)
     mpsu_input.M_gb_max = hydro_trans->getMaxBrakeTorque();
 
     mpsu_input.is_emergency_brake =
-            (brakepipe->getPressure() <= 0.3) ||
-            km->isEmergencyBrake() ||
+            ( brakepipe->getPressure() <= 0.3 ) ||
+            ( km->isEmergencyBrake() && active_cab_relay->getContactState(1) ) ||
             emerg_brake_valve->isEmergencyBrake() ||
             static_cast<bool>(sme_fwd->getSignal(SME_IS_EMERGENCY_BRAKE)) ||
             static_cast<bool>(sme_bwd->getSignal(SME_IS_EMERGENCY_BRAKE));

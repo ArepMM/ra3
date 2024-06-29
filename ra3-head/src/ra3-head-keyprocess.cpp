@@ -5,8 +5,8 @@
 //------------------------------------------------------------------------------
 void RA3HeadMotor::keyProcess()
 {
-    if (!is_active)
-        return;
+/*    if (!is_active)
+        return;*/
 
     if (is_autostart)
         return;

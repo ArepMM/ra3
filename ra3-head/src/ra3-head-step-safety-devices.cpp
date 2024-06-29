@@ -6,7 +6,7 @@
 void RA3HeadMotor::stepSafetyDevices(double t, double dt)
 {
     // Не работать в неактивной кабине
-    if (!is_active)
+    if (!active_cab_relay->getContactState(1))
         return;
 
     blok->setVoltage(Ucc_110);

@@ -23,7 +23,7 @@ void RA3HeadMotor::stepSME(double t, double dt)
     sme_bwd->setSignal(SME_CHARGE_VOLTAGE, aux_conv->getU_110());
 
     // Сигналы из активной кабины
-    if (is_active)
+    if (active_cab_relay->getContactState(1))
     {
         // Сигнал запрета включать другие кабины
         sme_fwd->setSignal(SME_NO_ACTIVE, 1.0);

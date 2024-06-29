@@ -83,11 +83,8 @@ private:
     /// Темп утечки из ГР
     double main_res_leak;
 
-    /// Фактический признак активной кабины
-    bool is_active;
-
-    /// Признак активной кабины в конфигурации
-    bool is_active_ref;
+    /// Реле активной кабины
+    Relay   *active_cab_relay;
 
     /// Состояние дверей справа
     int door_R_state;
@@ -100,13 +97,6 @@ private:
 
     /// Аккумуляторная батарея 24 В
     Battery     *bat24;
-
-    enum
-    {
-        NUM_TANKS = 2,
-        LEFT_TANK = 0,
-        RIGHT_TANK = 1
-    };
 
     /// Напряжение от батареи 110 В
     double U_bat_110;
@@ -248,17 +238,15 @@ private:
     /// Клапан аварийного экстренного торможения
     EmergencyBrakeValve *emerg_brake_valve;
 
-    /// Топливные баки
-    std::array<FuelTank *, NUM_TANKS> fuel_tank;
-
-    /// Индексы осей
     enum
     {
-        AXIS_1 = 1,
-        AXIS_2 = 2,
-        AXIS_3 = 3,
-        ASIS_4 = 4
+        NUM_TANKS = 2,
+        LEFT_TANK = 0,
+        RIGHT_TANK = 1
     };
+
+    /// Топливные баки
+    std::array<FuelTank *, NUM_TANKS> fuel_tank;
 
     /// Выключатели в кабине
     std::array<Trigger, TUMBLERS_NUM> tumbler;
