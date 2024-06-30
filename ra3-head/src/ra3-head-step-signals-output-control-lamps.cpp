@@ -12,7 +12,7 @@ void RA3HeadMotor::controlLampsSignalsOutput(double t, double dt)
     analogSignal[ACTIVE_COCKPIT] = static_cast<float>(active_cab_relay->getContactState(1));
 
     // "БАТАРЕЯ" (показывает что сеть питается от батареи)
-    analogSignal[BATTERY] = static_cast<float>(hs_n(bat110->getCargeCurrent()));
+    analogSignal[BATTERY] = static_cast<float>(hs_n(bat110->getChargeCurrent()));
 
     analogSignal[ALARM] = static_cast<float>(mpsu->getOutputData().is_red_alarm);
     analogSignal[ANXIETY] = static_cast<float>(mpsu->getOutputData().is_yellow_alarm);

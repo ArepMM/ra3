@@ -5,8 +5,6 @@
 
 #include    "ra3-tumblers-define.h"
 #include    "fuel-tank.h"
-#include    "battery.h"
-#include    "relay.h"
 #include    "mpsu.h"
 #include    "ra3-sme-connector.h"
 #include    "electric-fuel-pump.h"
